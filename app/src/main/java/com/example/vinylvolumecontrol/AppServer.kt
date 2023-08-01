@@ -40,25 +40,15 @@ class AppServer(audio: AudioManager?, ctx: Context?) : NanoHTTPD(9000) {
                 Timber.d("duck: handling volume up")
                 // handle volume up action here
                 audioManager?.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
-
-//                audioManager!!.adjustVolume(
-//                    AudioManager.ADJUST_RAISE,
-//                    AudioManager.FLAG_PLAY_SOUND
-//                )
                 return newFixedLengthResponse(Response.Status.OK, MIME_PLAINTEXT, "VOLUME UP")
             } else if (uri == "/volume-down") {
-                // handle volume down action here
-//                audioManager!!.adjustVolume(
-//                    AudioManager.ADJUST_LOWER,
-//                    AudioManager.FLAG_PLAY_SOUND
-//                )
-                audioManager?.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
                 Timber.d("duck: handling volume down")
+                // handle volume down action here
+                audioManager?.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
                 return newFixedLengthResponse(Response.Status.OK, MIME_PLAINTEXT, "VOLUME DOWN")
             }
         } else if (method == Method.GET) {
             // handle GET request, probably you will return your web page here
-//            if (uri == "/" || uri == "/index.html") {
                 var msg: String? = ""
                 try {
                     val inputStream: InputStream? =
@@ -76,22 +66,6 @@ class AppServer(audio: AudioManager?, ctx: Context?) : NanoHTTPD(9000) {
                     e.printStackTrace()
                 }
                 return newFixedLengthResponse(msg)
-//            } else if (uri == "/volume-up.png" || uri == "/volume-down.png") {
-//                // Here, you will need to handle serving the image files
-//                // Just an example, you will need to adjust this based on your actual filenames and file types
-//                return try {
-//                    val stream: InputStream? =
-//                        MyApplication.appContext?.assets?.open(uri.substring(1)) // remove the leading '/'
-//                    newChunkedResponse(Response.Status.OK, "image/png", stream)
-//                } catch (e: IOException) {
-//                    e.printStackTrace()
-//                    newFixedLengthResponse(
-//                        Response.Status.NOT_FOUND,
-//                        MIME_PLAINTEXT,
-//                        "File not found"
-//                    )
-//                }
-//            }
         }
 
         return newFixedLengthResponse(
